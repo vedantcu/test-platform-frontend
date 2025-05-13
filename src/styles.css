@@ -455,7 +455,8 @@ tr:nth-child(even) {
 
 .dark tr:nth-child(even) {
     background-color: #2a2a2a;
-}*/
+}
+
 /* ✅ Score Display Box */
 .score-box {
     margin-top: 20px;
