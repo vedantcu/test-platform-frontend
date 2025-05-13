@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles.css"; // Ensure styles are applied
+import "../styles.css";
+import { BASE_URL } from "../config"; // ✅ Import base URL
 
 const ThreeDGeometryTest = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "enabled");
-  const [timer, setTimer] = useState(600); // ⏳ 10 minutes (600 seconds)
-  const [score, setScore] = useState(null); // ✅ Store Score
-  const [correctCount, setCorrectCount] = useState(0); // ✅ Correct Answers Count
+  const [timer, setTimer] = useState(600);
+  const [score, setScore] = useState(null);
+  const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/questions?topic=3D%20Geometry");
+        const response = await axios.get(`${BASE_URL}/api/questions?topic=3D%20Geometry`);
         setQuestions(response.data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -23,7 +24,6 @@ const ThreeDGeometryTest = () => {
     fetchQuestions();
   }, []);
 
-  // ⏳ Timer Logic
   useEffect(() => {
     if (timer > 0 && !submitted) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -31,7 +31,6 @@ const ThreeDGeometryTest = () => {
     }
   }, [timer, submitted]);
 
-  // ✅ Dark Mode Toggle
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("darkMode", darkMode ? "enabled" : "disabled");
@@ -43,7 +42,6 @@ const ThreeDGeometryTest = () => {
     }
   };
 
-  // ✅ Handle Submit
   const handleSubmit = async () => {
     let correct = 0;
 
@@ -60,10 +58,9 @@ const ThreeDGeometryTest = () => {
     setCorrectCount(correct);
     setSubmitted(true);
 
-    // ✅ Save the result to MongoDB for Analytics
     try {
-      await axios.post("http://localhost:5000/api/save-result", {
-        user: "test-user", // You can modify this to take the logged-in user
+      await axios.post(`${BASE_URL}/api/save-result`, {
+        user: "test-user",
         subject: "Maths",
         topic: "3D Geometry",
         score: finalScore,
@@ -77,22 +74,18 @@ const ThreeDGeometryTest = () => {
 
   return (
     <div className={`test-container ${darkMode ? "dark" : ""}`}>
-      {/* ✅ Dark Mode Toggle Button */}
       <button className="dark-mode-toggle" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
       </button>
 
-      {/* ✅ Test Title */}
       <h1 className={`test-title ${darkMode ? "dark-text" : ""}`}>3D Geometry Test</h1>
 
-      {/* ✅ Timer Display */}
       {!submitted && (
         <p className="timer">
           ⏳ Time Left: {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, "0")}
         </p>
       )}
 
-      {/* ✅ Display Questions */}
       {questions.length > 0 ? (
         questions.map((q, index) => (
           <div key={index} className="question-box">
@@ -132,14 +125,12 @@ const ThreeDGeometryTest = () => {
         <p className="loading-message">Loading questions...</p>
       )}
 
-      {/* ✅ Submit Button */}
       {!submitted && (
         <button onClick={handleSubmit} className="submit-btn" disabled={timer === 0}>
           Submit Test
         </button>
       )}
 
-      {/* ✅ Show Score After Submission */}
       {submitted && (
         <div className="score-box">
           <h2>🎯 Test Completed!</h2>
