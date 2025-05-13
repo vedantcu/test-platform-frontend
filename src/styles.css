@@ -600,6 +600,54 @@ th {
     margin: 0;
 }
 
+.test-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+.question-box {
+  background: #f2f2f2;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.option-box {
+  padding: 8px;
+}
+.correct-answer {
+  background-color: #d4edda;
+}
+.wrong-answer {
+  background-color: #f8d7da;
+}
+.solution {
+  margin-top: 10px;
+  color: #333;
+}
+.submit-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.score-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: #e0f7fa;
+  border-radius: 10px;
+  text-align: center;
+}
+.dark-mode-toggle {
+  float: right;
+  margin-bottom: 10px;
+}
+.dark-mode {
+  background-color: #1e1e1e;
+  color: white;
+}
+.dark-text {
+  color: white;
+}
+
 
 
 
