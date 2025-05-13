@@ -7,26 +7,22 @@ import TestPage from "./pages/TestPage";
 import Analytics from "./pages/Analytics";
 import VectorsTest from "./pages/VectorsTest";
 import ThreeDGeometryTest from "./pages/ThreeDGeometryTest";
+// ❌ Removed: import SolidStateTest from "./pages/SolidStateTest";
 import { useState, useEffect } from "react";
 
 // ✅ Firebase Auth Imports
-import { auth, googleProvider } from "./firebase"; // ✅ Fix import
+import { auth, googleProvider } from "./firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 
 function App() {
-    // ✅ Dark Mode State
     const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "enabled");
-    
-    // ✅ User Authentication State
     const [user, setUser] = useState(null);
 
-    // ✅ Apply Dark Mode on Load
     useEffect(() => {
         document.body.classList.toggle("dark-mode", darkMode);
         localStorage.setItem("darkMode", darkMode ? "enabled" : "disabled");
     }, [darkMode]);
 
-    // ✅ Google Sign-In
     const handleSignIn = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
@@ -36,7 +32,6 @@ function App() {
         }
     };
 
-    // ✅ Sign Out
     const handleSignOut = () => {
         signOut(auth).then(() => setUser(null)).catch((error) => console.error("Sign-Out Error:", error));
     };
@@ -45,7 +40,6 @@ function App() {
         <Router>
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-            {/* ✅ Google Sign-In Button */}
             <div className="auth-container">
                 {user ? (
                     <div className="user-info">
@@ -61,8 +55,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/test" element={<Test />} />
-
-                {/* ✅ Subject-wise Test Routes */}
                 <Route path="/test/subject/:category" element={<TestPage />} />
                 <Route path="/analytics" element={<Analytics />} />
 
@@ -70,8 +62,7 @@ function App() {
                 <Route path="/test/topic/:category" element={<TestPage />} />
                 <Route path="/test/topic/maths/vectors" element={<VectorsTest />} />
                 <Route path="/test/topic/maths/3d-geometry" element={<ThreeDGeometryTest />} />
-                <Route path="/test/topic/chemistry/solid-state" element={<SolidStateTest />} />
-
+                {/* ❌ Removed: <Route path="/test/topic/chemistry/solid-state" element={<SolidStateTest />} /> */}
             </Routes>
         </Router>
     );
