@@ -7,7 +7,6 @@ import TestPage from "./pages/TestPage";
 import Analytics from "./pages/Analytics";
 import VectorsTest from "./pages/VectorsTest";
 import ThreeDGeometryTest from "./pages/ThreeDGeometryTest";
-import SolidStateTest from "./pages/SolidStateTest";
 import { useState, useEffect } from "react";
 
 // ✅ Firebase Auth Imports
