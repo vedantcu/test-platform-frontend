@@ -1,71 +1,81 @@
 import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+// ✅ Pages
 import Home from "./pages/Home";
 import Test from "./pages/Test";
-import Navbar from "./components/Navbar";
 import TestPage from "./pages/TestPage";
 import Analytics from "./pages/Analytics";
 import VectorsTest from "./pages/VectorsTest";
 import ThreeDGeometryTest from "./pages/ThreeDGeometryTest";
-// ❌ Removed: import SolidStateTest from "./pages/SolidStateTest";
-import { useState, useEffect } from "react";
 
-// ✅ Firebase Auth Imports
+// ✅ Components
+import Navbar from "./components/Navbar";
+import MotionIn1DTest from "./components/test/topic wise test/physics/MotionIn1DTest";
+
+// ✅ Firebase Auth
 import { auth, googleProvider } from "./firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 
 function App() {
-    const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "enabled");
-    const [user, setUser] = useState(null);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "enabled");
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        document.body.classList.toggle("dark-mode", darkMode);
-        localStorage.setItem("darkMode", darkMode ? "enabled" : "disabled");
-    }, [darkMode]);
+  // ✅ Apply dark mode toggle
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", darkMode);
+    localStorage.setItem("darkMode", darkMode ? "enabled" : "disabled");
+  }, [darkMode]);
 
-    const handleSignIn = async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            setUser(result.user);
-        } catch (error) {
-            console.error("Google Sign-In Error:", error);
-        }
-    };
+  // ✅ Google Sign-In Handler
+  const handleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      setUser(result.user);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
+  };
 
-    const handleSignOut = () => {
-        signOut(auth).then(() => setUser(null)).catch((error) => console.error("Sign-Out Error:", error));
-    };
+  // ✅ Sign-Out Handler
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => setUser(null))
+      .catch((error) => console.error("Sign-Out Error:", error));
+  };
 
-    return (
-        <Router>
-            <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+  return (
+    <Router>
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-            <div className="auth-container">
-                {user ? (
-                    <div className="user-info">
-                        <img src={user.photoURL} alt="User" className="user-img" />
-                        <p>Welcome, {user.displayName}!</p>
-                        <button onClick={handleSignOut} className="auth-btn">Sign Out</button>
-                    </div>
-                ) : (
-                    <button onClick={handleSignIn} className="auth-btn">Sign In with Google</button>
-                )}
-            </div>
+      <div className="auth-container">
+        {user ? (
+          <div className="user-info">
+            <img src={user.photoURL} alt="User" className="user-img" />
+            <p>Welcome, {user.displayName}!</p>
+            <button onClick={handleSignOut} className="auth-btn">Sign Out</button>
+          </div>
+        ) : (
+          <button onClick={handleSignIn} className="auth-btn">Sign In with Google</button>
+        )}
+      </div>
 
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/test" element={<Test />} />
-                <Route path="/test/subject/:category" element={<TestPage />} />
-                <Route path="/analytics" element={<Analytics />} />
+      <Routes>
+        {/* ✅ Main Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/test" element={<Test />} />
+        <Route path="/test/subject/:category" element={<TestPage />} />
+        <Route path="/analytics" element={<Analytics />} />
 
-                {/* ✅ Topic-wise Test Routes */}
-                <Route path="/test/topic/:category" element={<TestPage />} />
-                <Route path="/test/topic/maths/vectors" element={<VectorsTest />} />
-                <Route path="/test/topic/maths/3d-geometry" element={<ThreeDGeometryTest />} />
-                {/* ❌ Removed: <Route path="/test/topic/chemistry/solid-state" element={<SolidStateTest />} /> */}
-            </Routes>
-        </Router>
-    );
+        {/* ✅ Topic-wise Test Routes */}
+        <Route path="/test/topic/:category" element={<TestPage />} />
+        <Route path="/test/topic/maths/vectors" element={<VectorsTest />} />
+        <Route path="/test/topic/maths/3d-geometry" element={<ThreeDGeometryTest />} />
+        <Route path="/test/topic/physics/motion-in-1d" element={<MotionIn1DTest />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

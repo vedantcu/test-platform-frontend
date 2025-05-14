@@ -46,13 +46,11 @@ const Test = () => {
                 </div>
             )}
 
-            {/* ✅ Maths - Topic-wise Tests */}
-            {selectedSubject === "maths" && (
+            {/* ✅ Physics - Topic-wise Tests */}
+            {selectedSubject === "physics" && (
                 <div className="folder-container">
-                    <h2>➗ Maths - Topic-wise Tests</h2>
-                    <Link to="/test/topic/maths/mathematical-logic" className="folder-btn">📂 Mathematical Logic</Link>
-                    <Link to="/test/topic/maths/vectors" className="folder-btn">📂 Vectors</Link>
-                    <Link to="/test/topic/maths/3d-geometry" className="folder-btn">📂 3D Geometry</Link>
+                    <h2>⚛ Physics - Topic-wise Tests</h2>
+                    <Link to="/test/topic/physics/motion-in-1d" className="folder-btn">📂 Motion in 1D</Link>
                     <button className="back-btn" onClick={() => setSelectedSubject(null)}>🔙 Back</button>
                 </div>
             )}
@@ -62,6 +60,17 @@ const Test = () => {
                 <div className="folder-container">
                     <h2>🧪 Chemistry - Topic-wise Tests</h2>
                     <Link to="/test/topic/chemistry/solid-state" className="folder-btn">📂 Solid State</Link>
+                    <button className="back-btn" onClick={() => setSelectedSubject(null)}>🔙 Back</button>
+                </div>
+            )}
+
+            {/* ✅ Maths - Topic-wise Tests */}
+            {selectedSubject === "maths" && (
+                <div className="folder-container">
+                    <h2>➗ Maths - Topic-wise Tests</h2>
+                    <Link to="/test/topic/maths/mathematical-logic" className="folder-btn">📂 Mathematical Logic</Link>
+                    <Link to="/test/topic/maths/vectors" className="folder-btn">📂 Vectors</Link>
+                    <Link to="/test/topic/maths/3d-geometry" className="folder-btn">📂 3D Geometry</Link>
                     <button className="back-btn" onClick={() => setSelectedSubject(null)}>🔙 Back</button>
                 </div>
             )}
