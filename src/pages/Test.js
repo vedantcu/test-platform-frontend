@@ -51,6 +51,7 @@ const Test = () => {
                 <div className="folder-container">
                     <h2>⚛ Physics - Topic-wise Tests</h2>
                     <Link to="/test/topic/physics/motion-in-1d" className="folder-btn">📂 Motion in 1D</Link>
+                    <Link to="/test/topic/physics/vectors" className="folder-btn">📂 Vectors</Link> {/* ✅ Added this line */}
                     <button className="back-btn" onClick={() => setSelectedSubject(null)}>🔙 Back</button>
                 </div>
             )}

@@ -7,12 +7,13 @@ import Home from "./pages/Home";
 import Test from "./pages/Test";
 import TestPage from "./pages/TestPage";
 import Analytics from "./pages/Analytics";
-import VectorsTest from "./pages/VectorsTest";
+
 import ThreeDGeometryTest from "./pages/ThreeDGeometryTest";
 
 // ✅ Components
 import Navbar from "./components/Navbar";
 import MotionIn1DTest from "./components/test/topic wise test/physics/MotionIn1DTest";
+import VectorsTest from "./components/test/topic wise test/physics/VectorsTest";
 
 // ✅ Firebase Auth
 import { auth, googleProvider } from "./firebase";
@@ -70,9 +71,9 @@ function App() {
 
         {/* ✅ Topic-wise Test Routes */}
         <Route path="/test/topic/:category" element={<TestPage />} />
-        <Route path="/test/topic/maths/vectors" element={<VectorsTest />} />
         <Route path="/test/topic/maths/3d-geometry" element={<ThreeDGeometryTest />} />
         <Route path="/test/topic/physics/motion-in-1d" element={<MotionIn1DTest />} />
+        <Route path="/test/topic/physics/vectors" element={<VectorsTest />} />
       </Routes>
     </Router>
   );
