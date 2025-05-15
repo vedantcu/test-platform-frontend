@@ -378,3 +378,20 @@ th {
 .dark .loading-message {
     color: white;
 }
+.sign-in-prompt {
+  text-align: center;
+  padding: 20px;
+  border: 2px dashed gray;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.sign-in-btn {
+  background-color: #4285f4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}

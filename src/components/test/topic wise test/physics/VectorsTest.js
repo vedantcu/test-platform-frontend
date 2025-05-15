@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../../styles.css"; // adjust path if needed
 import { BASE_URL } from "../../../../config"; // ✅ Import base URL
+import { auth, googleProvider } from "../../../../firebase"; // ✅ Import Firebase Auth
 
 const VectorsTest = () => {
   const [questions, setQuestions] = useState([]);
@@ -11,6 +12,7 @@ const VectorsTest = () => {
   const [timer, setTimer] = useState(600);
   const [score, setScore] = useState(null);
   const [correctCount, setCorrectCount] = useState(0);
+  const [user, setUser] = useState(null); // ✅ Track logged-in user
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -36,6 +38,14 @@ const VectorsTest = () => {
     localStorage.setItem("darkMode", darkMode ? "enabled" : "disabled");
   }, [darkMode]);
 
+  // ✅ Track login status
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
   const handleOptionChange = (questionId, selectedOption) => {
     if (!submitted) {
       setAnswers((prevAnswers) => ({ ...prevAnswers, [questionId]: selectedOption }));
@@ -60,7 +70,7 @@ const VectorsTest = () => {
 
     try {
       await axios.post(`${BASE_URL}/api/save-result`, {
-        user: "test-user",
+        user: user?.email || "guest", // ✅ Save user email if available
         subject: "Physics",
         topic: "VectorsTest",
         score: finalScore,
@@ -69,6 +79,16 @@ const VectorsTest = () => {
       });
     } catch (error) {
       console.error("Error saving test result:", error);
+    }
+  };
+
+  // ✅ Handle Google Sign-In
+  const handleSignIn = async () => {
+    try {
+      const result = await auth.signInWithPopup(googleProvider);
+      setUser(result.user);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
     }
   };
 
@@ -132,16 +152,21 @@ const VectorsTest = () => {
       )}
 
       {submitted && (
-        <div className="score-box">
-          <h2>🎯 Test Completed!</h2>
-          <p>
-            ✅ Correct Answers: <strong>{correctCount}</strong>
-          </p>
-          <p>
-            ❌ Wrong Answers: <strong>{questions.length - correctCount}</strong>
-          </p>
-          <h3>Your Score: <span>{score.toFixed(2)}%</span></h3>
-        </div>
+        user ? (
+          <div className="score-box">
+            <h2>🎯 Test Completed!</h2>
+            <p>✅ Correct Answers: <strong>{correctCount}</strong></p>
+            <p>❌ Wrong Answers: <strong>{questions.length - correctCount}</strong></p>
+            <h3>Your Score: <span>{score.toFixed(2)}%</span></h3>
+          </div>
+        ) : (
+          <div className="sign-in-prompt">
+            <h3>🔒 Please sign in to view your test results</h3>
+            <button className="sign-in-btn" onClick={handleSignIn}>
+              🔐 Sign in with Google
+            </button>
+          </div>
+        )
       )}
     </div>
   );
